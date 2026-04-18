@@ -1,5 +1,4 @@
-[![Build Status](https://app.travis-ci.com/thedavidwhiteside/claude-code-tokenmiser.svg?branch=main "ansible-docs latest build")](http://travis-ci.org/thedavidwhiteside/claude-code-tokenmiser)
-[![Coverage Status](https://coveralls.io/repos/thedavidwhiteside/claude-code-tokenmiser/badge.svg?branch=main&service=github)](https://coveralls.io/github/thedavidwhiteside/claude-code-tokenmiser?branch=main)
+[![Tests](https://github.com/thedavidwhiteside/claude-code-tokenmiser/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/thedavidwhiteside/claude-code-tokenmiser/actions/workflows/test.yml)
 
 # Claude Code Daily Token Quota Plugin
 
