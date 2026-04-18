@@ -77,7 +77,7 @@ When your quota is exceeded:
 
 - Token counts are read from the session transcript after each turn. They should be accurate but may differ slightly from your AWS bill due to rounding.
 - The enforcer checks usage *before* a turn starts, so the very last turn before the limit may slightly exceed it (same behavior as Anthropic's own quota system).
-- Requires Python 3.6+ (no external dependencies).
+- Requires Python 3.10+ (no external dependencies).
 
 ### Running tests
 
