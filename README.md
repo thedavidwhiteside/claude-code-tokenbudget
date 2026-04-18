@@ -1,3 +1,6 @@
+[![Build Status](https://app.travis-ci.com/thedavidwhiteside/claude-code-tokenmiser.svg?branch=main "ansible-docs latest build")](http://travis-ci.org/thedavidwhiteside/claude-code-tokenmiser)
+[![Coverage Status](https://coveralls.io/repos/thedavidwhiteside/claude-code-tokenmiser/badge.svg?branch=main&service=github)](https://coveralls.io/github/thedavidwhiteside/claude-code-tokenmiser?branch=main)
+
 # Claude Code Daily Token Quota Plugin
 
 Enforces a daily token budget for Claude Code using its native hook system.
@@ -30,6 +33,7 @@ Override any of these in your `~/.claude/settings.json`:
 {
   "env": {
     "TOKEN_QUOTA_DAILY": "1000000",
+    "TOKEN_QUOTA_DIR": "~/.claude-token-quota",
     "TOKEN_QUOTA_RETAIN_DAYS": "30"
   }
 }
@@ -60,15 +64,31 @@ The default is 1,000,000 tokens/day (~$5.40/day at the example rates).
 
 ## Check status
 
-Check your current usage at any time:
-```bash
-/tokenmiser:status
-```
+Run `/tokenmiser:status` inside any Claude Code session to see today's usage.
+
+![Status output](img/status.png)
+
+When your quota is exceeded:
+
+![Limit reached](img/limit.png)
 
 ---
 
 ## Caveats
 
-- Token counts come from what Claude Code reports in the `Stop` hook's `usage` field. **On Bedrock, Claude Code does not send metrics back to Anthropic** — the hook reads the local token data Claude Code tracks client-side, which should be accurate but may differ slightly from your AWS bill.
+- Token counts are read from the session transcript after each turn. They should be accurate but may differ slightly from your AWS bill due to rounding.
 - The enforcer checks usage *before* a turn starts, so the very last turn before the limit may slightly exceed it (same behavior as Anthropic's own quota system).
 - Requires Python 3.6+ (no external dependencies).
+
+### Running tests
+
+```bash
+python3 -m unittest tests/test_plugin.py -v
+```
+
+### Contribution Guide
+
+- Branch off `develop`
+- Open a PR targeting `develop`
+
+For bug fixes or new features, please include or update tests in `tests/test_plugin.py`.
