@@ -1,6 +1,6 @@
 {
   "env": {
-    "TOKEN_QUOTA_DAILY": "500000",
+    "TOKEN_QUOTA_DAILY": "1000000",
     "TOKEN_QUOTA_DIR": "~/.claude-token-quota"
   }
 }

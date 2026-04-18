@@ -7,11 +7,12 @@ Reads token usage from the session transcript and appends it to today's ledger.
 import json
 import sys
 import os
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 LEDGER_DIR = Path(os.environ.get("TOKEN_QUOTA_DIR", Path.home() / ".claude-token-quota"))
 LEDGER_DIR.mkdir(parents=True, exist_ok=True)
+RETAIN_DAYS = int(os.environ.get("TOKEN_QUOTA_RETAIN_DAYS", 30))
 
 def today_ledger() -> Path:
     return LEDGER_DIR / f"{date.today().isoformat()}.json"
@@ -27,6 +28,15 @@ def load_ledger() -> dict:
 
 def save_ledger(ledger: dict):
     today_ledger().write_text(json.dumps(ledger, indent=2))
+
+def cleanup_old_ledgers():
+    cutoff = date.today() - timedelta(days=RETAIN_DAYS)
+    for f in LEDGER_DIR.glob("????-??-??.json"):
+        try:
+            if date.fromisoformat(f.stem) < cutoff:
+                f.unlink()
+        except ValueError:
+            pass
 
 def get_last_usage(transcript_path: str) -> dict | None:
     """Read the transcript JSONL and return usage from the last assistant message."""
@@ -84,6 +94,7 @@ def main():
     save_ledger(ledger)
 
     print(f"[token-quota] +{total:,} tokens this turn | today total: {ledger['total_tokens']:,}", file=sys.stderr)
+    cleanup_old_ledgers()
 
 if __name__ == "__main__":
     main()

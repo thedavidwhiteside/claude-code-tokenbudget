@@ -22,17 +22,24 @@ claude --plugin-dir /path/to/claude-code-tokenmiser
 
 That's it. The plugin wires up the hooks and applies default settings automatically.
 
-### Set your daily limit
+### Configuration
 
-Override `TOKEN_QUOTA_DAILY` in your `~/.claude/settings.json`:
+Override any of these in your `~/.claude/settings.json`:
 
 ```json
 {
   "env": {
-    "TOKEN_QUOTA_DAILY": "1000000"
+    "TOKEN_QUOTA_DAILY": "1000000",
+    "TOKEN_QUOTA_RETAIN_DAYS": "30"
   }
 }
 ```
+
+| Variable | Default | Description |
+|---|---|---|
+| `TOKEN_QUOTA_DAILY` | `1000000` | Daily token limit |
+| `TOKEN_QUOTA_DIR` | `~/.claude-token-quota` | Where ledger files are stored |
+| `TOKEN_QUOTA_RETAIN_DAYS` | `30` | How many days of usage history to keep |
 
 **Rough token budgets by spend goal — Claude Sonnet 4.6 on AWS Bedrock:**
 
@@ -47,22 +54,15 @@ Assuming a ~4:1 input-to-output ratio, blended cost is roughly $5.40 / 1M tokens
 | ~$10/day | 1,850,000 |
 | ~$20/day | 3,700,000 |
 
-The default is 500,000 tokens/day (~$2.70/day at the example rates).
+The default is 1,000,000 tokens/day (~$5.40/day at the example rates).
 
 ---
 
-## Usage
+## Check status
 
 Check your current usage at any time:
-
 ```bash
-python3 ~/.claude-token-quota/hooks/quota_status.py
-```
-
-View raw ledger:
-
-```bash
-cat ~/.claude-token-quota/$(date +%Y-%m-%d).json
+/tokenmiser:status
 ```
 
 ---

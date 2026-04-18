@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 
 LEDGER_DIR = Path(os.environ.get("TOKEN_QUOTA_DIR", Path.home() / ".claude-token-quota"))
-DAILY_LIMIT = int(os.environ.get("TOKEN_QUOTA_DAILY", 500_000))
+DAILY_LIMIT = int(os.environ.get("TOKEN_QUOTA_DAILY", 1_000_000))
 
 def today_ledger() -> Path:
     return LEDGER_DIR / f"{date.today().isoformat()}.json"
