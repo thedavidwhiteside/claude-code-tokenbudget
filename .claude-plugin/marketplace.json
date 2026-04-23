@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-tokenmiser",
+  "name": "claude-code-tokenbudget",
   "owner": {
     "name": "David Whiteside"
   },
@@ -8,14 +8,14 @@
   },
   "plugins": [
     {
-      "name": "tokenmiser",
+      "name": "tokenbudget",
       "source": "./",
       "description": "Enforces a daily token budget for Claude Code. Works with any backend — Bedrock, Vertex, direct API, or subscription.",
       "version": "1.0.0",
       "author": {
         "name": "David Whiteside"
       },
-      "repository": "https://github.com/thedavidwhiteside/claude-code-tokenmiser",
+      "repository": "https://github.com/thedavidwhiteside/claude-code-tokenbudget",
       "license": "MIT",
       "keywords": ["tokens", "quota", "budget", "bedrock"]
     }
