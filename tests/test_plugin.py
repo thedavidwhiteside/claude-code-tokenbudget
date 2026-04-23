@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for claude-code-tokenmiser plugin hooks.
+Unit tests for claude-code-tokenbudget plugin hooks.
 Run with: python3 -m pytest tests/ or python3 -m unittest tests/test_plugin.py
 """
 
