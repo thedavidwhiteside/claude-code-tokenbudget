@@ -2,8 +2,7 @@
 
 # Claude Code Daily Token Quota Plugin
 
-Enforces a daily token budget for Claude Code using its native hook system.
-Works with **any backend** — Bedrock, Vertex, direct API, or subscription.
+Claude Code has no built-in spending guardrails. This plugin tracks your daily token usage and hard stops new prompts once you hit your limit. It works with **any backend**: Bedrock, Vertex, direct API, or subscription.
 
 ## How it works
 
@@ -24,6 +23,18 @@ claude plugin install tokenbudget@claude-code-tokenbudget
 ```
 
 This installs the plugin. It will be active in all future Claude Code sessions without any extra flags.
+
+### Try before installing
+
+If you want to test the plugin without a permanent install:
+
+```bash
+git clone https://github.com/thedavidwhiteside/claude-code-tokenbudget.git
+cd claude-code-tokenbudget
+claude --plugin-dir .
+```
+
+The plugin is active only for that session. Nothing is written to your global config.
 
 ## Uninstall
 
@@ -51,11 +62,11 @@ Override any of these in your `~/.claude/settings.json`:
 | `TOKEN_QUOTA_DIR` | `~/.claude-token-quota` | Where ledger files are stored |
 | `TOKEN_QUOTA_RETAIN_DAYS` | `30` | How many days of usage history to keep |
 
-**Rough token budgets by spend goal — Claude Sonnet 4.6 on AWS Bedrock:**
+**Rough token budgets by spend goal — AWS Bedrock example (Claude Sonnet 4.6):**
 
-> **Note:** Prices below are examples only and will change. Always check the [AWS Bedrock pricing page](https://aws.amazon.com/bedrock/pricing/) for current rates.
+> **Note:** Prices below are AWS Bedrock examples only and will change. For current rates check the [AWS Bedrock pricing page](https://aws.amazon.com/bedrock/pricing/). Direct API users: see the [Anthropic pricing page](https://www.anthropic.com/pricing) for your model's rates, then apply the same blended-cost formula below.
 
-Sonnet 4.6 standard pricing: ~$3.00 / 1M input tokens, ~$15.00 / 1M output tokens.
+Sonnet 4.6 standard pricing on Bedrock: ~$3.00 / 1M input tokens, ~$15.00 / 1M output tokens.
 Assuming a ~4:1 input-to-output ratio, blended cost is roughly $5.40 / 1M tokens.
 
 | Daily spend goal | ~Token budget |
@@ -80,6 +91,14 @@ When your quota is exceeded:
 
 ---
 
+## FAQ
+
+**Why not just set a spending limit in Claude.ai?**
+
+Claude.ai spending limits only apply to your claude.ai subscription. If you're using Claude Code through the direct API, AWS Bedrock, or Vertex AI, those limits don't apply — your API key has no built-in cap. This plugin fills that gap by enforcing a hard stop at the Claude Code layer, regardless of which backend you're on.
+
+---
+
 ## Caveats
 
 - Token counts are read from the session transcript after each turn. They should be accurate but may differ slightly from your AWS bill due to rounding.
@@ -92,10 +111,8 @@ When your quota is exceeded:
 python3 -m unittest tests/test_plugin.py -v
 ```
 
-### Contribution Guide
+---
 
-- Branch off `develop`
-- Open a PR targeting `develop`
+## Contributing
 
-For bug fixes or new features, please include or update tests in `tests/test_plugin.py`.
-
+See [CONTRIBUTING.md](CONTRIBUTING.md).
